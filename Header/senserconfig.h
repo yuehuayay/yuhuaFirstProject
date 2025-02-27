@@ -44,7 +44,7 @@ extern "C" {
 #define CURRENT_NUM_OF_TRACKS 2
 #define MTI_Size              128
 #define PRINT_FLAG            0
-#define MAXNUM_OF_DETECTION (300U)
+#define MAXNUM_OF_DETECTION (32U)
 
         // #define UART_DEVICE                                   UART5
 #define UART_BAUDRATE 9600 // 9600 // 460800//256000//2400

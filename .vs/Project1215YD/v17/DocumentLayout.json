@@ -1,0 +1,239 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\Feature_Alarm.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:source\\Feature_Alarm.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\RCW.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:source\\RCW.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\RangePro.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:source\\RangePro.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\Feature_Alarm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:Header\\Feature_Alarm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\FFTData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:Header\\FFTData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\winfft.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:source\\winfft.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\senserconfig.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:Header\\senserconfig.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\data__process.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:Header\\data__process.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\fft_windowq15.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:source\\fft_windowq15.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\win_api.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A4856A69-011A-4D12-9879-844DBE952999}|Project1215YD.vcxproj|solutionrelative:Header\\win_api.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\SDL3-3.2.4\\include\\SDL3\\SDL.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\track.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:source\\track.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Feature_Alarm.h",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\Feature_Alarm.h",
+              "RelativeDocumentMoniker": "Header\\Feature_Alarm.h",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\Feature_Alarm.h",
+              "RelativeToolTip": "Header\\Feature_Alarm.h",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAYwKIAAABxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-24T02:04:34.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Main.cpp",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Main.cpp",
+              "RelativeDocumentMoniker": "Main.cpp",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Main.cpp",
+              "RelativeToolTip": "Main.cpp",
+              "ViewState": "AgIAAC4AAAAAAAAAAADgvzYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-24T03:05:12.926Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RangePro.c",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\RangePro.c",
+              "RelativeDocumentMoniker": "source\\RangePro.c",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\RangePro.c",
+              "RelativeToolTip": "source\\RangePro.c",
+              "ViewState": "AgIAAFgAAAAAAAAAAADgv2AAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-01-24T03:15:07.575Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "winfft.cpp",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\winfft.cpp",
+              "RelativeDocumentMoniker": "source\\winfft.cpp",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\winfft.cpp",
+              "RelativeToolTip": "source\\winfft.cpp",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFAAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-06T02:51:02.663Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Feature_Alarm.c",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\Feature_Alarm.c",
+              "RelativeDocumentMoniker": "source\\Feature_Alarm.c",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\Feature_Alarm.c",
+              "RelativeToolTip": "source\\Feature_Alarm.c",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAYwG4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-02-24T02:03:14.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RCW.c",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\RCW.c",
+              "RelativeDocumentMoniker": "source\\RCW.c",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\RCW.c",
+              "RelativeToolTip": "source\\RCW.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-02-25T02:20:38.994Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "senserconfig.h",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\senserconfig.h",
+              "RelativeDocumentMoniker": "Header\\senserconfig.h",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\senserconfig.h",
+              "RelativeToolTip": "Header\\senserconfig.h",
+              "ViewState": "AgIAACUAAAAAAAAAAADgvywAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-24T03:16:01.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FFTData.h",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\FFTData.h",
+              "RelativeDocumentMoniker": "Header\\FFTData.h",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\FFTData.h",
+              "RelativeToolTip": "Header\\FFTData.h",
+              "ViewState": "AgIAACgAAAAAAAAAAAAYwDIAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-24T03:21:54.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "data__process.h",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\data__process.h",
+              "RelativeDocumentMoniker": "Header\\data__process.h",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\data__process.h",
+              "RelativeToolTip": "Header\\data__process.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-26T02:40:55.903Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "fft_windowq15.c",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\fft_windowq15.c",
+              "RelativeDocumentMoniker": "source\\fft_windowq15.c",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\fft_windowq15.c",
+              "RelativeToolTip": "source\\fft_windowq15.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-01-24T05:00:47.834Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "track.c",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\track.c",
+              "RelativeDocumentMoniker": "source\\track.c",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\source\\track.c",
+              "RelativeToolTip": "source\\track.c",
+              "ViewState": "AgIAAIcAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-02-24T02:52:43.166Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "win_api.h",
+              "DocumentMoniker": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\win_api.h",
+              "RelativeDocumentMoniker": "Header\\win_api.h",
+              "ToolTip": "C:\\Users\\zhangpeng\\Desktop\\January\\Project1215YD\\Project1215YD\\Header\\win_api.h",
+              "RelativeToolTip": "Header\\win_api.h",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-06T02:53:23.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SDL.h",
+              "DocumentMoniker": "D:\\SDL3-3.2.4\\include\\SDL3\\SDL.h",
+              "ToolTip": "D:\\SDL3-3.2.4\\include\\SDL3\\SDL.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-19T06:02:13.668Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

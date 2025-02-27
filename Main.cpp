@@ -3,11 +3,12 @@
 #include <string.h>
 #include "../Project1215YD/Header/senserconfig.h"
 #include "../Project1215YD/source/RangePro.c"
+#include "../Project1215YD/Header/Feature_Alarm.h"
 
 #define datalength  (128 * 32 * 2 * 2)
+target_infov2_t info[MAXNUM_OF_DETECTION];
 float radarcubeodd[datalength];
-
-
+AppHandle_t  app_Handle;
 
 
 
@@ -38,6 +39,20 @@ int main()
 	DopplerProcess ();
 	CFARprocess();
 	CM_phase_Angle();
+
+	for (int i = 0; i < gnumObjs; i++)
+	{
+		info[i].state = target[i].state;
+
+		info[i].id = i;
+		info[i].x = target[i].range * sinf(target[i].Angle * PI / 180); // 单位m
+		info[i].y = target[i].range * cosf(target[i].Angle * PI / 180); // 单位m
+		info[i].speed = target[i].velocity;  // 单位m/s
+		info[i].mag = target[i].strength - target[i].noise1;
+		info[i].noise = target[i].strength - target[i].noise2;
+	}
+	printf("numobj = %d\n", gnumObjs);
+	 Functional_alarm(&app_Handle,info, gnumObjs);
 	return 0;
 
 
