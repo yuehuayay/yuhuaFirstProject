@@ -1,6 +1,0 @@
-.vs/
-.vs/Project1215YD/
-Project1215YD/x64/Debug/
-
-# 忽略所有 .obj 文件
-*.obj
