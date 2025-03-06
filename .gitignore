@@ -1,0 +1,5 @@
+# 忽略目录（末尾加 /）
+.vs/       # Visual Studio 临时文件
+Project1215YD/x64/Debug/  # 编译输出目录
+
+
