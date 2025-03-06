@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../Project1215YD/Header/senserconfig.h"
 #include "../Project1215YD/source/RangePro.c"
-#include "../Project1215YD/Header/Feature_Alarm.h"
+#include "../Project1215YD/Header/AssisedDriing.h"
 
 #define datalength  (128 * 32 * 2 * 2)
 target_infov2_t info[MAXNUM_OF_DETECTION];
@@ -51,7 +51,8 @@ int main()
 		info[i].mag = target[i].strength - target[i].noise1;
 		info[i].noise = target[i].strength - target[i].noise2;
 	}
-	printf("numobj = %d\n", gnumObjs);
+	 printf("numobj = %d\n", gnumObjs);
+
 	 Functional_alarm(&app_Handle,info, gnumObjs);
 	return 0;
 
