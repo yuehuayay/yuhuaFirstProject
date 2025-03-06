@@ -1,6 +1,18 @@
+# Visual Studio 临时文件
 .vs/
-.vs/Project1215YD/
-Project1215YD/x64/Debug/
+*.suo
+*.user
+*.vsidx
 
-# 忽略所有 .obj 文件
+# 编译输出和调试文件
+x64/
 *.obj
+*.exe
+*.ilk
+*.pdb
+*.log
+*.sdf
+*.idb
+Build/
+Debug/
+Release/
