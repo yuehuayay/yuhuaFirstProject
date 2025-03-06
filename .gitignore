@@ -1,5 +1,6 @@
-# 忽略目录（末尾加 /）
-.vs/       # Visual Studio 临时文件
-Project1215YD/x64/Debug/  # 编译输出目录
+.vs/
+.vs/Project1215YD/
+Project1215YD/x64/Debug/
 
-
+# 忽略所有 .obj 文件
+*.obj
