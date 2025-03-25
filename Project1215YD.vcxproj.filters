@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="source\RangePro.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -30,10 +27,16 @@
     <ClCompile Include="Header\win_api.h">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\Feature_Alarm.c">
+    <ClCompile Include="source\RCW.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\RCW.c">
+    <ClCompile Include="source\BSD.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\AssisedDriing.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +47,7 @@
     <ClInclude Include="Header\FFTData.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Feature_Alarm.h">
+    <ClInclude Include="Header\AssisedDriing.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
