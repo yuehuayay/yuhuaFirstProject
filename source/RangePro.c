@@ -1897,7 +1897,7 @@ void cfft_f32(arm_cfft_instance_f32* instance,
     FFT_Compute_Signal_f32(pf32FftSignal, u16SignalLen, pf32WindowBuffer, enFftType, bRemoveMean, instance);
 }
 
-void RangeFFT(uint8_t dopplerLine, float* adcbuffer)
+void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
 {
     uint16_t jj = 0;
 
@@ -1909,33 +1909,56 @@ void RangeFFT(uint8_t dopplerLine, float* adcbuffer)
         //rangefft_temp[2 * jj + 1] = (float)adcbuffer[2*jj+1];
         gRadarCubeTemp[jj].real = (float)adcbuffer[2 * jj];
         gRadarCubeTemp[jj].image = (float)adcbuffer[2 * jj+1]; //for complex fft
-
-        gRadarCubeTemp1[jj].real = (float)adcbuffer[2* RANGE_FFT_SIZE * DOPPLER_FFT_SIZE + 2 * jj];
-        gRadarCubeTemp1[jj].image =(float)adcbuffer[2 * RANGE_FFT_SIZE * DOPPLER_FFT_SIZE + 2 * jj + 1]; //for complex fft
-        //printf("%f", rangefft_temp[2 * jj]);
+        //printf("%f", gRadarCubeTemp[jj].real);
         //printf(",");
-        //printf("%f", rangefft_temp[2 * jj + 1]);
+        //printf("%f", gRadarCubeTemp[jj].image);
         //printf(",");
     }
-
+    // printf("%d,%d,", channleine, dopplerLine);
     //cfft_f32(&czt_fft_256, rangefft_temp, MTI_Size, (float*)f32WindowBlackmanharris128, FFT_IQ, 0);
-    win_fft( 128, gRadarCubeTemp,  0, 32768.0);
-    win_fft(128, gRadarCubeTemp1, 0, 32768.0);   //rangefft for RX2
+       win_fft(MTI_Size, gRadarCubeTemp,  0, 32768.0);
 
 
     for (jj = 0; jj < RANGE_FFT_SIZE ; jj++)
     {
-        rangefft[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2] = gRadarCubeTemp[jj].real; // I
-        rangefft[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp[jj].image; // Q
+        rangefft[channleine * RDatalength * 2 +jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2] = gRadarCubeTemp[jj].real; // I
+        rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp[jj].image; // Q
 
-        rangefft1[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2] = gRadarCubeTemp1[jj].real; // I
-        rangefft1[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp1[jj].image; // Q result for R1
+       //rangefft1[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2] = gRadarCubeTemp1[jj].real; // I
+       //rangefft1[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp1[jj].image; // Q result for R1
 
-/*        printf("%f", rangefft[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2]);
+/*      printf("%f", rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2]);
         printf(",");
-        printf("%f", rangefft[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1]);
-        printf(",")*/;                                                                   //result is ok
+        printf("%f", rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1]);
+        printf(",");*/                                                                   //result is ok
     }
+    FILE* file;
+    errno_t err = fopen_s(&file, "rangefft_output.txt", "a");
+    if (err != 0) {
+        // Handle error
+        printf("Error opening file\n");
+        return;
+    }
+
+    if (file != NULL)
+    {
+        // 将 rangefft 数组的数据写入文件
+        for (jj = 0; jj < RANGE_FFT_SIZE; jj++)
+        {
+            fprintf(file, "%f,%f,",
+                rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2],
+                rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1]);
+        }
+        fclose(file); // 关闭文件
+    }
+    else
+    {
+        printf("无法打开文件\n");
+    }
+    
+
+  
+
 }
 
 

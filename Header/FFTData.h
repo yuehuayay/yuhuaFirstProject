@@ -12,7 +12,7 @@
 //float rangefft_temp[RANGE_FFT_SIZE * 2];
 // q15_t rangefft_temp[RANGE_FFT_SIZE * 2];
 
-float rangefft[RANGE_FFT_SIZE  * DOPPLER_FFT_SIZE * 2]; // rangfft结果为复数
+float rangefft[RANGE_FFT_SIZE  * DOPPLER_FFT_SIZE* NumchannelMimo * 2]; // rangfft结果为复数
 float RD_Map[RANGE_FFT_SIZE  * DOPPLER_FFT_SIZE]; // ABS结果为实数
 float RD_Map_Dopplerffttemp[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE * 2];
 Complexfloat gRadarCubeTemp[128];
