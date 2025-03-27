@@ -1909,10 +1909,6 @@ void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
         //rangefft_temp[2 * jj + 1] = (float)adcbuffer[2*jj+1];
         gRadarCubeTemp[jj].real = (float)adcbuffer[2 * jj];
         gRadarCubeTemp[jj].image = (float)adcbuffer[2 * jj+1]; //for complex fft
-        //printf("%f", gRadarCubeTemp[jj].real);
-        //printf(",");
-        //printf("%f", gRadarCubeTemp[jj].image);
-        //printf(",");
     }
     // printf("%d,%d,", channleine, dopplerLine);
     //cfft_f32(&czt_fft_256, rangefft_temp, MTI_Size, (float*)f32WindowBlackmanharris128, FFT_IQ, 0);
@@ -1924,22 +1920,16 @@ void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
         rangefft[channleine * RDatalength * 2 +jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2] = gRadarCubeTemp[jj].real; // I
         rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp[jj].image; // Q
 
-       //rangefft1[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2] = gRadarCubeTemp1[jj].real; // I
-       //rangefft1[jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp1[jj].image; // Q result for R1
-
-/*      printf("%f", rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2]);
-        printf(",");
-        printf("%f", rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1]);
-        printf(",");*/                                                                   //result is ok
     }
     FILE* file;
-    errno_t err = fopen_s(&file, "rangefft_output.txt", "a");
+    errno_t err = fopen_s(&file, "dataout\\rangefft_output.txt", "a");
     if (err != 0) {
         // Handle error
         printf("Error opening file\n");
         return;
     }
 
+    //%%%%%%%%%%%%%%range data printf%%%%%%%%%%%%%//
     if (file != NULL)
     {
         // 将 rangefft 数组的数据写入文件
@@ -1956,7 +1946,7 @@ void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
         printf("无法打开文件\n");
     }
     
-
+    //%%%%%%%%%%%%%%range data printf%%%%%%%%%%%%%//
   
 
 }
@@ -1964,16 +1954,15 @@ void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
 
 void DopplerProcess()
 {
-
+  for(uint16_t jj = 0; jj < NumchannelMimo;jj++)
+  {
     for (uint16_t ii = 0; ii < RANGE_FFT_SIZE; ii++)
     {
         for (uint16_t kk = 0; kk < DOPPLER_FFT_SIZE; kk++)
         {
-            gRadarCubeDTemp[kk].real = rangefft[ii* DOPPLER_FFT_SIZE * 2+kk*2];
-            gRadarCubeDTemp[kk].image = rangefft[ii * DOPPLER_FFT_SIZE * 2+ kk * 2+1];
+            gRadarCubeDTemp[kk].real = rangefft[jj *RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kk * 2];
+            gRadarCubeDTemp[kk].image = rangefft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kk * 2 + 1];
 
-            gRadarCubeDTemp1[kk].real = rangefft1[ii * DOPPLER_FFT_SIZE * 2 + kk * 2];
-            gRadarCubeDTemp1[kk].image = rangefft1[ii * DOPPLER_FFT_SIZE * 2 + kk * 2 + 1];
 
         }
 
@@ -1984,50 +1973,61 @@ void DopplerProcess()
         //    (float*)f32WindowHanning32,
         //    FFT_IQ,
         //    1);
-        win_fft(32, gRadarCubeDTemp, 0, 32768.0);
-        win_fft(32, gRadarCubeDTemp1, 0, 32768.0);
+        win_fft(64, gRadarCubeDTemp, 0, 32768.0);
 
-/*       for (uint16_t kkk =0;kkk<32;kkk++)
+        for (uint16_t kkk = 0;kkk < DOPPLER_FFT_SIZE;kkk++)
         {
-            printf("%f", gRadarCubeDTemp[kkk].real);
-            printf(",");
-            printf("%f", gRadarCubeDTemp[kkk].image);
-            printf(","); 
-        } */                                           //result is ok
-             
-           for (uint16_t kkk =0;kkk<32;kkk++)
+            RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk] = gRadarCubeDTemp[kkk].real;
+            RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk + 1] = gRadarCubeDTemp[kkk].image;
+
+        }
+
+        //%%%%%%%%%%%%%%doppler data printf%%%%%%%%%%%%%//
+        //result is ok
+        FILE* file;
+        errno_t err = fopen_s(&file, "dataout\\Dopplerfft_output.txt", "a");
+        if (err != 0) {
+            // Handle error
+            printf("Error opening file\n");
+            return;
+        }
+
+        if (file != NULL)
         {
-               RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE*2 +2*kkk] = gRadarCubeDTemp[kkk].real;
-               RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE*2 +2*kkk+1] = gRadarCubeDTemp[kkk].image;
-
-               RD_Map_Dopplerffttemp1[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk] = gRadarCubeDTemp1[kkk].real;
-               RD_Map_Dopplerffttemp1[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk + 1] = gRadarCubeDTemp1[kkk].image;
-
-                 //printf("%f", gRadarCubeDTemp[kkk].real);
-                 //printf(",");
-                 //printf("%f", gRadarCubeDTemp[kkk].image);
-                 //printf(",");       //result is ok
-                                                        
-        }                                          
-
-        FFT_Abs_f32(&RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE*2], &RD_Map[ii * DOPPLER_FFT_SIZE], DOPPLER_FFT_SIZE);
-        FFT_Abs_f32(&RD_Map_Dopplerffttemp1[ii * DOPPLER_FFT_SIZE * 2], &RD_Map1[ii * DOPPLER_FFT_SIZE], DOPPLER_FFT_SIZE);
-
-
-
-            for (uint16_t test_k =0;test_k < DOPPLER_FFT_SIZE;test_k++)
+            // 将 dopplerfft 数组的数据写入文件
+            for (uint16_t txtidx = 0; txtidx < DOPPLER_FFT_SIZE; txtidx++)
             {
-                //printf("%f", RD_Map[ii * DOPPLER_FFT_SIZE + test_k]);
-                //printf(",");
-            }                                                            //result is ok                    
+                fprintf(file, "%f,%f,",
+                    gRadarCubeDTemp[txtidx].real,
+                    gRadarCubeDTemp[txtidx].image);
+            }
+            fclose(file); // 关闭文件
+        }
+        else
+        {
+            printf("无法打开文件\n");
+        }
+    //%%%%%%%%%%%%%%doppler data printf%%%%%%%%%%%%%//
+
+
+        FFT_Abs_f32(&RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE * 2], &RD_Map[ii * DOPPLER_FFT_SIZE], DOPPLER_FFT_SIZE);
+       
+        for (uint16_t test_k = 0;test_k < DOPPLER_FFT_SIZE;test_k++)
+        {
+            //printf("%f", RD_Map[ii * DOPPLER_FFT_SIZE + test_k]);
+            //printf(",");
+        }                                                            //result is ok                    
 
     }
 
     //非相干累积
     for (uint16_t mapidx = 0;mapidx < DOPPLER_FFT_SIZE * RANGE_FFT_SIZE;mapidx++)
     {
-        RD_Map[mapidx] = RD_Map[mapidx] + RD_Map1[mapidx];
-    }
+        RD_Map_ALL[mapidx] = RD_Map_ALL[mapidx] + RD_Map[mapidx];
+        //printf("%f", RD_Map_ALL[mapidx]);
+        //printf(",");
+	}															//result is ok
 
+}
 
 }
