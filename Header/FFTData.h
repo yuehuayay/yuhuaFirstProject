@@ -18,11 +18,7 @@ float RD_Map_ALL[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE]; // ABS结果为实数
 float RD_Map_Dopplerffttemp[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE * 2];
 Complexfloat gRadarCubeTemp[RANGE_FFT_SIZE];
 Complexfloat gRadarCubeDTemp[DOPPLER_FFT_SIZE];
-
 extern uint16_t gnumObjs;
-
-float RD_Map1[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE]; // ABS结果为实数
-float RD_Map_Dopplerffttemp1[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE * 2];
 
 typedef struct target_infov2_t
 {

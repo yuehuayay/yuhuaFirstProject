@@ -202,9 +202,6 @@ uint16_t cfarPeakPruning(uint16_t* grpPeakIdx,
 
                 detObj[i].channel_data[0] = RD_Map_Dopplerffttemp[2 * (rangeIdx* numDopplerBins + dopplerIdx)];
                 detObj[i].channel_data[1] = RD_Map_Dopplerffttemp[2 * (rangeIdx * numDopplerBins + dopplerIdx) + 1];
-                detObj[i].channel_data[2] = RD_Map_Dopplerffttemp1[2 * (rangeIdx * numDopplerBins + dopplerIdx)];
-                detObj[i].channel_data[3] = RD_Map_Dopplerffttemp1[2 * (rangeIdx * numDopplerBins + dopplerIdx) + 1];   //保留峰值点通道复数
-
                 numObjOut++;
             }
             // 若检测到的目标数已达到最大数量，则停止检测
@@ -336,7 +333,7 @@ uint16_t CFARCA_peakGrouping(uint16_t numDetectedObjects)
     numPeakGrp = cfarPeakPruning(grpPeakIdx,
         target,
         numDetectedObjects,
-        RD_Map,
+        RD_Map_ALL,
         numDopplerBins,
         maxRangeIdx,
         minRangeIdx,
@@ -870,7 +867,7 @@ uint16_t CFARCA_processRangeDomain()
         // 取一条doppler线上的二维fft结果进行rangecfar
         for (i = 0; i < RANGE_FFT_SIZE / 2; i++)
         {
-            RangeCfarDetdata[i] = RD_Map[i * DOPPLER_FFT_SIZE + dopplerLine];
+            RangeCfarDetdata[i] = RD_Map_ALL[i * DOPPLER_FFT_SIZE + dopplerLine];
         }
 
         numDetObjPerRangeCfar =
@@ -930,7 +927,7 @@ uint16_t CFARCA_processDopplerDomain()
         //}
 
         numDetObjPerDopplerCfar =
-            CfarWrap_1D(&RD_Map[DetRangeIdx * DOPPLER_FFT_SIZE], cfarDetOutBuffer, len, guardLen, noiseLen, Pfa, &noise[0]);
+            CfarWrap_1D(&RD_Map_ALL[DetRangeIdx * DOPPLER_FFT_SIZE], cfarDetOutBuffer, len, guardLen, noiseLen, Pfa, &noise[0]);
 
         for (index = 0; index < numDetObjPerDopplerCfar; index++)
         {
@@ -984,9 +981,9 @@ void CFARprocess()
     //                          g_SensorCfgDefault.rf_config.chirpSweepTimeUs * 1e-6 /
     //                          (2 * g_SensorCfgDefault.rf_config.rfBandwidthMHz * 1e6 * RANGE_FFT_SIZE);
 
-    float distance_per_bin = 1.2500f;
+    float distance_per_bin = 0.7500f;
 
-    float velocity_per_bin = 1.1808f;
+    float velocity_per_bin = 0.2161f;
         
 
     gnumObjs = 0;
@@ -1022,9 +1019,9 @@ void CFARprocess()
             x[0] = dopplerIdx - 1;
             x[1] = dopplerIdx;
             x[2] = dopplerIdx + 1;
-            y[0] = RD_Map[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx - 1];
-            y[1] = RD_Map[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx];
-            y[2] = RD_Map[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx + 1];
+            y[0] = RD_Map_ALL[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx - 1];
+            y[1] = RD_Map_ALL[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx];
+            y[2] = RD_Map_ALL[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx + 1];
 
             // 对3个输入点进行抛物线/二次拟合的效用函数并返回峰值的坐标。
             Dsp_Quadratic_Filter(x, y, &peak_idx, &mapvalue);
@@ -1050,9 +1047,9 @@ void CFARprocess()
             x[0] = rangeIdx - 1;
             x[1] = rangeIdx;
             x[2] = rangeIdx + 1;
-            y[0] = RD_Map[(rangeIdx - 1) * DOPPLER_FFT_SIZE + dopplerIdx];
-            y[1] = RD_Map[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx];
-            y[2] = RD_Map[(rangeIdx + 1) * DOPPLER_FFT_SIZE + dopplerIdx];
+            y[0] = RD_Map_ALL[(rangeIdx - 1) * DOPPLER_FFT_SIZE + dopplerIdx];
+            y[1] = RD_Map_ALL[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx];
+            y[2] = RD_Map_ALL[(rangeIdx + 1) * DOPPLER_FFT_SIZE + dopplerIdx];
 
             Dsp_Quadratic_Filter(x, y, &peak_idx, &mapvalue);
 
@@ -1069,7 +1066,7 @@ void CFARprocess()
             target[index].range = rangeIdx * distance_per_bin; // 目标距离 m        
         }
 
-        target[index].strength = 20 * log10f(RD_Map[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx]);
+        target[index].strength = 20 * log10f(RD_Map_ALL[rangeIdx * DOPPLER_FFT_SIZE + dopplerIdx]);
 
         target[index].state = 1;
 
