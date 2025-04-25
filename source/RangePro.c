@@ -78,6 +78,35 @@ typedef float float32_t;
 DPIF_PointCloud target[MAXNUM_OF_DETECTION];
 uint32_t gcfarDopplerDetOutBitMask[RANGE_FFT_SIZE / 2 * DOPPLER_FFT_SIZE / 32];
 uint16_t gnumObjs;
+uint16_t Array_map[NumTx * NumRx] = {1,9,2,10,3,11,4,12};
+
+
+void Velocity_Compensation()
+{   
+	float lamda = 0.0124; // 波长
+    float T_sweep = 130 * 1e-6;
+	float T_idle = 60 * 1e-6;
+    float V_set = 30;
+    float Tc = T_sweep * 2 + T_idle;
+    float deltaPhase = 4 * PI * V_set * Tc / lamda;
+}
+
+
+void Estimate_Azim()
+{
+    Complexfloat MimoSamples[NumTx * NumRx] = { 0 };
+    for (uint16_t objidx = 0; objidx < gnumObjs;objidx++)
+    {
+        for (uint8_t channelidx = 0;channelidx < NumTx * NumRx;channelidx++)
+        {
+			MimoSamples[channelidx].real = target[objidx].channel_data[(Array_map[channelidx]-1)*2];
+            MimoSamples[channelidx].image = target[objidx].channel_data[(Array_map[channelidx]-1) * 2+1];
+        }
+
+    }
+
+
+}
 
 void CM_phase_Angle()
 {
@@ -87,6 +116,14 @@ void CM_phase_Angle()
         float channe0_imag = target[objidx].channel_data[1];
         float channe1_real = target[objidx].channel_data[2];
         float channe1_imag = target[objidx].channel_data[3];
+        //float channe2_real = target[objidx].channel_data[4];
+        //float channe2_imag = target[objidx].channel_data[5];
+        //float channe3_real = target[objidx].channel_data[6];
+        //float channe3_imag = target[objidx].channel_data[7];
+        //float channe4_real = target[objidx].channel_data[8];
+        //float channe5_imag = target[objidx].channel_data[9];
+        //float channe5_real = target[objidx].channel_data[10];
+        //float channe6_imag = target[objidx].channel_data[11];
 
         float deltaPhase_real = (channe0_real * channe1_real + channe0_imag * channe1_imag) / (channe0_real* channe0_real+ channe0_imag* channe0_imag);//((c+di)/(a+bi))
         float deltaPhase_imag = (channe0_real * channe1_imag - channe0_imag * channe1_real) / (channe0_real * channe0_real + channe0_imag * channe0_imag);//((c+di)/(a+bi))
@@ -200,8 +237,13 @@ uint16_t cfarPeakPruning(uint16_t* grpPeakIdx,
             {
                 grpPeakIdx[numObjOut] = i;
 
-                detObj[i].channel_data[0] = RD_Map_Dopplerffttemp[2 * (rangeIdx* numDopplerBins + dopplerIdx)];
-                detObj[i].channel_data[1] = RD_Map_Dopplerffttemp[2 * (rangeIdx * numDopplerBins + dopplerIdx) + 1];
+                for (uint8_t channelidx = 0;channelidx<12;channelidx++ )
+                {
+                    detObj[i].channel_data[2*channelidx] = rangefft[2 * (channelidx*RDatalength + rangeIdx * numDopplerBins + dopplerIdx)];
+                    detObj[i].channel_data[2*channelidx + 1] = rangefft[2 * (channelidx * RDatalength + rangeIdx * numDopplerBins + dopplerIdx) + 1];
+
+                }
+                
                 numObjOut++;
             }
             // 若检测到的目标数已达到最大数量，则停止检测
@@ -1976,7 +2018,8 @@ void DopplerProcess()
         {
             RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk] = gRadarCubeDTemp[kkk].real;
             RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk + 1] = gRadarCubeDTemp[kkk].image;
-
+            rangefft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kkk * 2] = gRadarCubeDTemp[kkk].real;
+            rangefft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kkk * 2 + 1] = gRadarCubeDTemp[kkk].image;
         }
 
         //%%%%%%%%%%%%%%doppler data printf%%%%%%%%%%%%%//

@@ -43,7 +43,7 @@ typedef struct
     float    range;
     float    velocity;
     float    Angle;
-    float    channel_data[2*2];
+    float    channel_data[2*12];
 } DPIF_PointCloud;
 
 typedef enum en_fft_type

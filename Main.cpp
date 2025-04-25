@@ -41,7 +41,11 @@ int main()
 
     DopplerProcess ();
 	CFARprocess();
-	CM_phase_Angle();
+	//CM_phase_Angle();
+	Velocity_Compensation();
+	Estimate_Azim();
+
+
 
 	for (int i = 0; i < gnumObjs; i++)
 	{
