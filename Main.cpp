@@ -4,10 +4,13 @@
 #include "../ProjectFY001/Header/senserconfig.h"
 #include "../ProjectFY001/source/RangePro.c"
 #include "../ProjectFY001/Header/AssisedDriing.h"
+#include"../ProjectFY001/Header/ABMatch.h"
 
-#define datalength  (RANGE_FFT_SIZE * DOPPLER_FFT_SIZE * NumchannelMimo*2)
+#define datalengthA  (RANGE_FFT_SIZE * NumchirpA * NumchannelMimo*2)
+#define datalengthB  (RANGE_FFT_SIZE * NumchirpB * NumchannelMimo*2)
 target_infov2_t info[MAXNUM_OF_DETECTION];
-float AdcData[datalength];
+float AdcDataA[datalengthA];
+float AdcDataB[datalengthB];
 AppHandle_t  app_Handle;
 
 
@@ -18,32 +21,41 @@ int main()
 	//read rawdata
 	errno_t err;
 	FILE* file = NULL;
-	extern void RangeFFT(uint8_t channleine,uint8_t dopplerLine, float* adcbuffer);  //源代码里是uint16
-	const char* filename = "C:\\Users\\zhangpeng\\Desktop\\March\\ProjectFY001\\data\\destata.bin"; // bin文件名
-	memset(AdcData, 0, sizeof(AdcData));
+	extern void RangeFFT(uint8_t channleine,uint8_t dopplerLine, uint16_t num_chirps,float* adcbuffer);  //源代码里是uint16
+	const char* filename = "C:\\Users\\zhangpeng\\Desktop\\March\\ProjectFY001\\data\\destataA.bin"; // bin文件名
+	memset(AdcDataA, 0, sizeof(AdcDataA));
 	err = fopen_s(&file, filename, "rb");
 	if (err != 0) {
 		fprintf(stderr, "Error opening file: %d\n", err);
 		return -1; 
 	}
-	fread(AdcData, sizeof(float), datalength, file);
-	num_chirps = DOPPLER_FFT_SIZE;
+	fread(AdcDataA, sizeof(float), datalengthA, file);
+	if (frametype)
+	{
+		num_chirps = NumchirpB;
 
+	}
+	else
+	{
+		num_chirps = NumchirpA;
+	}
+	
+	uint16_t RDatalengthAB = RANGE_FFT_SIZE * num_chirps;
 	//OutputDatainitial();
 
 	for (uint8_t channelidx = 0; channelidx < NumchannelMimo;channelidx++)
 	{
 		for (uint8_t chirpidx = 0; chirpidx < num_chirps; chirpidx++)
 		{
-			RangeFFT(channelidx, chirpidx,&AdcData[channelidx * RDatalength*2 + chirpidx * RANGE_FFT_SIZE * 2]);
+			RangeFFT(channelidx, chirpidx, num_chirps,&AdcDataA[channelidx * RDatalengthAB *2 + chirpidx * RANGE_FFT_SIZE * 2]);
 		}
 	}
 
-    DopplerProcess ();
+    DopplerProcess (num_chirps);
 	CFARprocess();
 	//CM_phase_Angle();
-	Velocity_Compensation();
-	Estimate_Azim();
+	Complexfloat spdcom_complex = Velocity_Compensation();
+	Estimate_Azim(spdcom_complex);
 
 
 

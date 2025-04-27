@@ -40,7 +40,7 @@ extern "C" {
         * Global definitions
         ******************************************************************************/
 #define RANGE_FFT_SIZE        128
-#define DOPPLER_FFT_SIZE      64
+#define DOPPLER_FFT_SIZE      128
 #define CURRENT_NUM_OF_TRACKS 2
 #define MTI_Size              128
 #define PRINT_FLAG            0
@@ -48,8 +48,9 @@ extern "C" {
 
 #define NumTx                2
 #define NumRx                4
-#define NumchannelMimo       12
+#define NumchannelMimo       8
 #define RDatalength         (RANGE_FFT_SIZE * DOPPLER_FFT_SIZE)
+
 
 
 

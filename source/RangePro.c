@@ -6,6 +6,7 @@
 #include "../Header/senserconfig.h"
 #include "../Header/FFTData.h"
 #include "../Header/win_api.h"
+#include"../Header/ABMatch.h"
 
  const float f32WindowBlackmanharris128[] =
 {
@@ -78,30 +79,85 @@ typedef float float32_t;
 DPIF_PointCloud target[MAXNUM_OF_DETECTION];
 uint32_t gcfarDopplerDetOutBitMask[RANGE_FFT_SIZE / 2 * DOPPLER_FFT_SIZE / 32];
 uint16_t gnumObjs;
-uint16_t Array_map[NumTx * NumRx] = {1,9,2,10,3,11,4,12};
+uint16_t Array_map[NumTx * NumRx] = {1,5,2,6,3,7,4,8};
 
 
-void Velocity_Compensation()
+Complexfloat  Velocity_Compensation()
 {   
-	float lamda = 0.0124; // 波长
-    float T_sweep = 130 * 1e-6;
-	float T_idle = 60 * 1e-6;
+    Complexfloat spdcom_complex[1] = {0};
+	float lamda = 0.0125; // 波长
+    float T_sweep = 128 * 1e-6;
+	float T_idle = 20 * 1e-6;
     float V_set = 30;
-    float Tc = T_sweep * 2 + T_idle;
+    float Tc = T_sweep  + T_idle;
     float deltaPhase = 4 * PI * V_set * Tc / lamda;
-}
+
+    float spdcom_real = cos(deltaPhase);
+    float spdcom_image = sin(deltaPhase)*(-1);
+    spdcom_complex[0].real = spdcom_real;
+    spdcom_complex[0].image = spdcom_image;
+
+    return spdcom_complex[0];
+    }
 
 
-void Estimate_Azim()
+void Estimate_Azim(Complexfloat spdcom_complex)
 {
+    Complexfloat MimoSamplesarray[NumTx * NumRx] = { 0 };
     Complexfloat MimoSamples[NumTx * NumRx] = { 0 };
+    Complexfloat MimoSamples1[NumTx * NumRx] = { 0 };
+    Complexfloat angleffttemp[32] = { 0 };
     for (uint16_t objidx = 0; objidx < gnumObjs;objidx++)
     {
+
         for (uint8_t channelidx = 0;channelidx < NumTx * NumRx;channelidx++)
         {
-			MimoSamples[channelidx].real = target[objidx].channel_data[(Array_map[channelidx]-1)*2];
-            MimoSamples[channelidx].image = target[objidx].channel_data[(Array_map[channelidx]-1) * 2+1];
+            MimoSamples[channelidx].real = target[objidx].channel_data[channelidx * 2];
+            MimoSamples[channelidx].image = target[objidx].channel_data[channelidx * 2 + 1];
+
+			//MimoSamples[channelidx].real = MimoSamples[channelidx].real * spdcom_complex.real - MimoSamples[channelidx].image * spdcom_complex.image;
+			//MimoSamples[channelidx].image = MimoSamples[channelidx].real * spdcom_complex.image + MimoSamples[channelidx].image * spdcom_complex.real;
         }
+
+        memcpy(MimoSamples1, MimoSamples,4*sizeof(Complexfloat));
+        for (uint8_t idxAzi = 4; idxAzi < 8; idxAzi++)
+        {
+            MimoSamples1[idxAzi].real = MimoSamples[idxAzi].real * spdcom_complex.real - MimoSamples[idxAzi].image * spdcom_complex.image;
+            MimoSamples1[idxAzi].image = MimoSamples[idxAzi].real * spdcom_complex.image + MimoSamples[idxAzi].image * spdcom_complex.real;
+
+        }
+
+        //  for (uint8_t ii = 0; ii < 8; ii++)
+        //{
+        //    printf("%f,", MimoSamples1[ii].image);
+        //    printf("%f,", MimoSamples1[ii].real);
+        //}
+
+        for (uint8_t channelidx = 0;channelidx < NumTx * NumRx;channelidx++)
+        {
+            MimoSamplesarray[channelidx].real = MimoSamples1[(Array_map[channelidx]-1)].real;
+            MimoSamplesarray[channelidx].image = MimoSamples1[(Array_map[channelidx]-1)].image;
+        }
+
+        memset(angleffttemp, 0, sizeof(angleffttemp));
+  
+        angleffttemp[0].image =  MimoSamplesarray[4].image;
+        angleffttemp[0].real  =  MimoSamplesarray[4].real;
+        angleffttemp[1].image =  MimoSamplesarray[5].image;
+        angleffttemp[1].real  =  MimoSamplesarray[5].real;
+        angleffttemp[2].image =  MimoSamplesarray[6].image;
+        angleffttemp[2].real  =  MimoSamplesarray[6].real;
+        angleffttemp[3].image =  MimoSamplesarray[7].image;
+        angleffttemp[3].real  =  MimoSamplesarray[7].real;
+
+    //  for (uint8_t ii = 0; ii < 32; ii++)
+    //{
+    //    printf("%f,", angleffttemp[ii].image);
+    //    printf("%f,", angleffttemp[ii].real);
+    //}
+
+        win_fft(32, angleffttemp, 0, 32768.0);
+
 
     }
 
@@ -130,7 +186,7 @@ void CM_phase_Angle()
         float deltphase = atan2f(deltaPhase_imag, deltaPhase_real);
         float Angle_Degree = asinf(deltphase / PI)*(180/PI);
         target[objidx].Angle = Angle_Degree;
-        printf("angle = %f", Angle_Degree);
+        //printf("angle = %f", Angle_Degree);
     }
 
 
@@ -237,11 +293,13 @@ uint16_t cfarPeakPruning(uint16_t* grpPeakIdx,
             {
                 grpPeakIdx[numObjOut] = i;
 
-                for (uint8_t channelidx = 0;channelidx<12;channelidx++ )
+                for (uint8_t channelidx = 0;channelidx<8;channelidx++ )
                 {
-                    detObj[i].channel_data[2*channelidx] = rangefft[2 * (channelidx*RDatalength + rangeIdx * numDopplerBins + dopplerIdx)];
-                    detObj[i].channel_data[2*channelidx + 1] = rangefft[2 * (channelidx * RDatalength + rangeIdx * numDopplerBins + dopplerIdx) + 1];
-
+                    detObj[i].channel_data[2*channelidx] = dopfft[2 * (channelidx*RDatalength + rangeIdx * numDopplerBins + dopplerIdx)];
+                    detObj[i].channel_data[2*channelidx + 1] = dopfft[2 * (channelidx * RDatalength + rangeIdx * numDopplerBins + dopplerIdx) + 1];
+                    //printf("channelidx =%d\n", channelidx);
+                    //printf("channeldataq =%f\n", detObj[i].channel_data[2 * channelidx]);
+                    //printf("channeldatai =%f\n", detObj[i].channel_data[2 * channelidx+1]);
                 }
                 
                 numObjOut++;
@@ -1023,9 +1081,18 @@ void CFARprocess()
     //                          g_SensorCfgDefault.rf_config.chirpSweepTimeUs * 1e-6 /
     //                          (2 * g_SensorCfgDefault.rf_config.rfBandwidthMHz * 1e6 * RANGE_FFT_SIZE);
 
-    float distance_per_bin = 0.7500f;
+    float distance_per_bin = 0.7619f;
+    float velocity_per_bin = 0;
 
-    float velocity_per_bin = 0.2161f;
+    if (frametype)
+    {
+         velocity_per_bin = 0.165f;
+    }
+    else
+    {
+         velocity_per_bin = 0.1375f;
+    }
+
         
 
     gnumObjs = 0;
@@ -1936,7 +2003,7 @@ void cfft_f32(arm_cfft_instance_f32* instance,
     FFT_Compute_Signal_f32(pf32FftSignal, u16SignalLen, pf32WindowBuffer, enFftType, bRemoveMean, instance);
 }
 
-void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
+void RangeFFT(uint8_t channleine, uint8_t dopplerLine,uint16_t numchirp, float* adcbuffer)
 {
     uint16_t jj = 0;
 
@@ -1948,16 +2015,21 @@ void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
         //rangefft_temp[2 * jj + 1] = (float)adcbuffer[2*jj+1];
         gRadarCubeTemp[jj].real = (float)adcbuffer[2 * jj];
         gRadarCubeTemp[jj].image = (float)adcbuffer[2 * jj+1]; //for complex fft
+        //printf("%f", gRadarCubeTemp[jj].real);
+        //printf(",");
+        //printf("%f", gRadarCubeTemp[jj].image);
+        //printf(",");
     }
     // printf("%d,%d,", channleine, dopplerLine);
     //cfft_f32(&czt_fft_256, rangefft_temp, MTI_Size, (float*)f32WindowBlackmanharris128, FFT_IQ, 0);
        win_fft(MTI_Size, gRadarCubeTemp,  0, 32768.0);
 
 
+     uint16_t RDatalengthAB = RANGE_FFT_SIZE * numchirp;
     for (jj = 0; jj < RANGE_FFT_SIZE ; jj++)
     {
-        rangefft[channleine * RDatalength * 2 +jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2] = gRadarCubeTemp[jj].real; // I
-        rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp[jj].image; // Q
+        rangefft[channleine * RDatalengthAB * 2 +jj * numchirp * 2 + dopplerLine * 2] = gRadarCubeTemp[jj].real; // I
+        rangefft[channleine * RDatalengthAB * 2 + jj * numchirp * 2 + dopplerLine * 2 + 1] = gRadarCubeTemp[jj].image; // Q
 
     }
     FILE* file;
@@ -1975,8 +2047,8 @@ void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
         for (jj = 0; jj < RANGE_FFT_SIZE; jj++)
         {
             fprintf(file, "%f,%f,",
-                rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2],
-                rangefft[channleine * RDatalength * 2 + jj * DOPPLER_FFT_SIZE * 2 + dopplerLine * 2 + 1]);
+                rangefft[channleine * RDatalengthAB * 2 + jj * numchirp * 2 + dopplerLine * 2],
+                rangefft[channleine * RDatalengthAB * 2 + jj * numchirp * 2 + dopplerLine * 2 + 1]);
         }
         fclose(file); // 关闭文件
     }
@@ -1991,35 +2063,50 @@ void RangeFFT(uint8_t channleine, uint8_t dopplerLine, float* adcbuffer)
 }
 
 
-void DopplerProcess()
+void DopplerProcess(uint16_t num_chirps)
 {
+    uint16_t RDatalengthAB = RANGE_FFT_SIZE * num_chirps;
   for(uint16_t jj = 0; jj < NumchannelMimo;jj++)
   {
     for (uint16_t ii = 0; ii < RANGE_FFT_SIZE; ii++)
     {
-        for (uint16_t kk = 0; kk < DOPPLER_FFT_SIZE; kk++)
+        memset(gRadarCubeDTemp, 0, sizeof(gRadarCubeDTemp));
+        for (uint16_t kk = 0; kk < num_chirps; kk++)
         {
-            gRadarCubeDTemp[kk].real = rangefft[jj *RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kk * 2];
-            gRadarCubeDTemp[kk].image = rangefft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kk * 2 + 1];
-
-
+            gRadarCubeDTemp[kk].real = rangefft[jj * RDatalengthAB * 2 + ii * num_chirps * 2 + kk * 2];
+            gRadarCubeDTemp[kk].image = rangefft[jj * RDatalengthAB * 2 + ii * num_chirps * 2 + kk * 2 + 1];
         }
 
-
+        //if (ii == 39)
+        //{
+        //    for (uint16_t txtidxa = 0; txtidxa < num_chirps; txtidxa++)
+        //    {
+        //        printf("%f,", gRadarCubeDTemp[txtidxa].real);
+        //        printf("%f,", gRadarCubeDTemp[txtidxa].image);
+        //    }
+        //}
         //cfft_f32(&czt_fft_256,
         //    &rangefft[ii * DOPPLER_FFT_SIZE * 2],
         //    DOPPLER_FFT_SIZE,
         //    (float*)f32WindowHanning32,
         //    FFT_IQ,
         //    1);
-        win_fft(64, gRadarCubeDTemp, 0, 32768.0);
 
+        win_fft(128, gRadarCubeDTemp, 0, 32768.0);
+        //if (ii == 39)
+        //{
+        //    for (uint16_t txtidxa = 0; txtidxa < DOPPLER_FFT_SIZE; txtidxa++)
+        //    {
+        //        printf("%f,", gRadarCubeDTemp[txtidxa].real);
+        //        printf("%f,", gRadarCubeDTemp[txtidxa].image);
+        //    }
+        //}
         for (uint16_t kkk = 0;kkk < DOPPLER_FFT_SIZE;kkk++)
         {
             RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk] = gRadarCubeDTemp[kkk].real;
             RD_Map_Dopplerffttemp[ii * DOPPLER_FFT_SIZE * 2 + 2 * kkk + 1] = gRadarCubeDTemp[kkk].image;
-            rangefft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kkk * 2] = gRadarCubeDTemp[kkk].real;
-            rangefft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kkk * 2 + 1] = gRadarCubeDTemp[kkk].image;
+            dopfft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kkk * 2] = gRadarCubeDTemp[kkk].real;
+            dopfft[jj * RDatalength * 2 + ii * DOPPLER_FFT_SIZE * 2 + kkk * 2 + 1] = gRadarCubeDTemp[kkk].image;
         }
 
         //%%%%%%%%%%%%%%doppler data printf%%%%%%%%%%%%%//

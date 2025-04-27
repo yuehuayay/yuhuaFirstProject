@@ -13,6 +13,7 @@
 // q15_t rangefft_temp[RANGE_FFT_SIZE * 2];
 
 float rangefft[RANGE_FFT_SIZE  * DOPPLER_FFT_SIZE* NumchannelMimo * 2]; // rangfft结果为复数
+float dopfft[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE * NumchannelMimo * 2];
 float RD_Map[RANGE_FFT_SIZE  * DOPPLER_FFT_SIZE]; // ABS结果为实数
 float RD_Map_ALL[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE]; // ABS结果为实数
 float RD_Map_Dopplerffttemp[RANGE_FFT_SIZE * DOPPLER_FFT_SIZE * 2];
@@ -43,7 +44,7 @@ typedef struct
     float    range;
     float    velocity;
     float    Angle;
-    float    channel_data[2*12];
+    float    channel_data[2*8];
 } DPIF_PointCloud;
 
 typedef enum en_fft_type
